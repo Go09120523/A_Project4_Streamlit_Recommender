@@ -7,11 +7,12 @@ import streamlit as st
 import pickle
 # import warnings
 # warnings.filterwarnings('ignore')
-
-pd.options.display.float_format = '{:.2f}'.format
-st.set_page_config(layout="wide")
-st.set_option('deprecation.showPyplotGlobalUse', False)
 st.write('Hello')
+
+# pd.options.display.float_format = '{:.2f}'.format
+# st.set_page_config(layout="wide")
+# st.set_option('deprecation.showPyplotGlobalUse', False)
+
 # # Input files----------------------------------------------------------------------
 # products = pd.read_csv('Product_new.csv')
 # reviews = pd.read_csv('Review_new.zip', lineterminator='\n')
