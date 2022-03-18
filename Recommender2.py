@@ -17,7 +17,7 @@ products = pd.read_csv('Product_new.csv')
 reviews = pd.read_csv('Review_new.zip', lineterminator='\n')
 with open('Sim_Results.pkl', 'rb') as f:
     prod_rec = pickle.load(f)
-user_rec = pd.read_csv('user_recs.zip')  
+user_rec = pd.read_parquet('user_recs.parquet')  
  
 # Functions-----------------------------------------------------------------------------
 reviews[['customer_id', 'product_id', 'rating']] = reviews[['customer_id', 'product_id', 'rating']].apply(pd.to_numeric)
@@ -203,50 +203,56 @@ elif choice == 'Build Project':
     st.write('Review')
     st.dataframe(reviews.head(3))
     st.markdown('#### 2. Visualization')
+    
     st.write('Giá bán')
     fig, ax = plt.subplots(1, 2, figsize=(12,6))
     products.price.plot(kind='box', ax=ax[0])
     products.price.plot(kind='hist', bins=20, ax=ax[1])
     st.pyplot(fig.figure) 
+    
     st.write('Thương hiệu')
     brands = products.groupby('brand')['item_id'].count().sort_values(ascending=False)
-    fig = brands[1:11].plot(kind='bar')
+    fig1 = brands[1:11].plot(kind='bar')
     plt.ylabel('Count')
     plt.title('Products Items by brand')
-    st.pyplot(fig.figure)
+    st.pyplot(fig1.figure)
+    
     st.write('Giá bán theo thương hiệu')
     price_by_brand = products.groupby(by='brand').mean()['price'].sort_values(ascending=False)
-    fig = price_by_brand[:10].plot(kind='bar')
+    fig2 = price_by_brand[:10].plot(kind='bar')
     plt.ylabel('Price')
     plt.title('Average price by brand')
-    st.pyplot(fig.figure)
+    st.pyplot(fig2.figure)
+    
     st.write('Rating')
-    fig= plt.figure(figsize=(6, 6))
-    sns.displot(products, x = 'rating', kind='hist')
-    st.pyplot(fig.figure)
+    p1 = sns.displot(products, x = 'rating', kind='hist')
+    st.pyplot(p1.figure)
+    
     st.write('Average Rating')
     avg_rating_customer = reviews.groupby(by='product_id').mean()['rating'].to_frame().reset_index()
     avg_rating_customer.rename({'rating': 'avg_rating'}, axis=1, inplace=True)
     n_products = products.merge(avg_rating_customer, left_on='item_id', right_on = 'product_id', how='left')
-    fig= plt.figure(figsize=(6, 6))
-    sns.displot(n_products, x='avg_rating', kind='hist')
-    st.pyplot(fig.figure)
+    p2 = sns.displot(n_products, x='avg_rating', kind='hist')
+    st.pyplot(p2.figure)
+    
     st.write('Review distribution')
-    fig= plt.figure(figsize=(6, 6))
-    sns.displot(reviews, x='rating', kind='kde')
-    st.pyplot(fig.figure)
+    p3 = sns.displot(reviews, x='rating', kind='kde')
+    st.pyplot(p3.figure)
+    
     st.write('Top 20 products have the most reviews')
-    fig = plt.figure(figsize = (12, 6))
+    fig5 = plt.figure(figsize = (12, 6))
     top_products = reviews.groupby('product_id').count()['customer_id'].sort_values(ascending=False)[:20]
     top_products.index = products[products.item_id.isin(top_products.index)]['name'].str[:25]
     top_products.plot(kind='bar')
-    st.pyplot(fig.figure)
+    st.pyplot(fig5.figure)
+    
     st.write('Top 20 customers do the most reviews')
     top_rating_customers = reviews.groupby('customer_id').count()['product_id'].sort_values(ascending=False)[:20]
-    plt.figure(figsize=(12,6))
+    fig6 = plt.figure(figsize=(12,6))
     plt.bar(x=[str(x) for x in top_rating_customers.index], height=top_rating_customers.values)
     plt.xticks(rotation=70)
-    st.pyplot(fig.figure)
+    st.pyplot(fig6.figure)
+    
     st.markdown('#### 3. Build Model')
     st.markdown('##### Cosine-Similarity')
     st.markdown(""" Steps taken:
