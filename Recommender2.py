@@ -18,7 +18,8 @@ reviews = pd.read_csv('Review_new.zip', lineterminator='\n')
 with open('Sim_Results.pkl', 'rb') as f:
     prod_rec = pickle.load(f)
 user_rec = pd.read_parquet('user_recs.parquet')  
- 
+st.write('Hello')
+
 # Functions-----------------------------------------------------------------------------
 reviews[['customer_id', 'product_id', 'rating']] = reviews[['customer_id', 'product_id', 'rating']].apply(pd.to_numeric)
 # Random products for initial display
