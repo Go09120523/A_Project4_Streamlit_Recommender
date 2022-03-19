@@ -165,45 +165,45 @@ def recommend(item_id, num):
 #                                 predictionCol='prediction')
 # rmse = evaluator.evaluate(predictions)
 
-# GUI---------------------------------------------------------------------
+# # GUI---------------------------------------------------------------------
 
-st.title("Data Science Recommender System Project")
-st.write("---------------------------------------------------------------------------")
-st.write("Upload file contains products information used for content-base filtering")
-uploaded_file = st.file_uploader('Choose a file', type=['csv'], key=1)
-if uploaded_file is not None:
-    products2 = pd.read_csv(uploaded_file, encoding='latin-1')
-    products2.to_csv('Product_new2.csv', index=False)
-st.write("Upload file contains users information used for collaborative filtering")
-uploaded_file2 = st.file_uploader('Choose a file', type=['csv'], key=2)
-if uploaded_file2 is not None:
-    reviews2 = pd.read_csv(uploaded_file, encoding='latin-1')
-    reviews2.to_csv('Review_new2.csv', index=False)
-st.write('****************************************************************') 
-menu = ['Business Objective', 'Build Project', 'Recommender']
-choice = st.sidebar.selectbox('Menu', menu)
-if choice == 'Business Objective':
-    st.write(""" 
-- Tiki là một hệ sinh thái thương mại “all in one”, trong đó có tiki.vn, là một website thương mại điện tử đứng top 2 của Việt Nam, top 6 khu vực Đông Nam Á.
-- Trên trang này đã triển khai nhiều tiện ích hỗ trợ nâng cao trải nghiệm người dùng và họ muốn xây dựng nhiều tiện ích hơn nữa.
-""")
-    st.markdown("##### **OBJECTIVE:**")
-    st.write("Xây dựng Recommendation System cho một hoặc một số nhóm hàng \
-        hoá trên tiki.vn giúp đề xuất và gợi ý cho khách hàng trong quá trình lựa chọn sản phẩm ")
-    st.markdown("##### **ĐỀ XUẤT:**")
-    st.write("""
-- Content-base filtering algorithms such as Cosine-Similarity or Gensim for new customer product search.
-- Collaborative filtering such as ALS or DBSCAN for our regular customers""")
-    st.write("In this project, we will employ Cosine-Similarity and ALS to build Tiki Recommender System")
+# st.title("Data Science Recommender System Project")
+# st.write("---------------------------------------------------------------------------")
+# st.write("Upload file contains products information used for content-base filtering")
+# uploaded_file = st.file_uploader('Choose a file', type=['csv'], key=1)
+# if uploaded_file is not None:
+#     products2 = pd.read_csv(uploaded_file, encoding='latin-1')
+#     products2.to_csv('Product_new2.csv', index=False)
+# st.write("Upload file contains users information used for collaborative filtering")
+# uploaded_file2 = st.file_uploader('Choose a file', type=['csv'], key=2)
+# if uploaded_file2 is not None:
+#     reviews2 = pd.read_csv(uploaded_file, encoding='latin-1')
+#     reviews2.to_csv('Review_new2.csv', index=False)
+# st.write('****************************************************************') 
+# menu = ['Business Objective', 'Build Project', 'Recommender']
+# choice = st.sidebar.selectbox('Menu', menu)
+# if choice == 'Business Objective':
+#     st.write(""" 
+# - Tiki là một hệ sinh thái thương mại “all in one”, trong đó có tiki.vn, là một website thương mại điện tử đứng top 2 của Việt Nam, top 6 khu vực Đông Nam Á.
+# - Trên trang này đã triển khai nhiều tiện ích hỗ trợ nâng cao trải nghiệm người dùng và họ muốn xây dựng nhiều tiện ích hơn nữa.
+# """)
+#     st.markdown("##### **OBJECTIVE:**")
+#     st.write("Xây dựng Recommendation System cho một hoặc một số nhóm hàng \
+#         hoá trên tiki.vn giúp đề xuất và gợi ý cho khách hàng trong quá trình lựa chọn sản phẩm ")
+#     st.markdown("##### **ĐỀ XUẤT:**")
+#     st.write("""
+# - Content-base filtering algorithms such as Cosine-Similarity or Gensim for new customer product search.
+# - Collaborative filtering such as ALS or DBSCAN for our regular customers""")
+#     st.write("In this project, we will employ Cosine-Similarity and ALS to build Tiki Recommender System")
 
-elif choice == 'Build Project':
-    st.subheader('Build Project')
-    st.markdown('#### 1. Some data')
-    st.write('Product')
-    st.dataframe(products.head(3))
-    st.write('Review')
-    st.dataframe(reviews.head(3))
-    st.markdown('#### 2. Visualization')
+# elif choice == 'Build Project':
+#     st.subheader('Build Project')
+#     st.markdown('#### 1. Some data')
+#     st.write('Product')
+#     st.dataframe(products.head(3))
+#     st.write('Review')
+#     st.dataframe(reviews.head(3))
+#     st.markdown('#### 2. Visualization')
 #     st.write('Giá bán')
 #     fig, ax = plt.subplots(1, 2, figsize=(12,6))
 #     products.price.plot(kind='box', ax=ax[0])
