@@ -6,7 +6,6 @@ import matplotlib.pyplot as plt
 import streamlit as st
 import pickle
 
-from torch import true_divide
 # import warnings
 # warnings.filterwarnings('ignore')
 st.set_page_config(layout="wide")
