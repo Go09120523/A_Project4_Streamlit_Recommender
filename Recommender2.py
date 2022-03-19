@@ -5,21 +5,21 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import streamlit as st
 import pickle
-import warnings
-warnings.filterwarnings('ignore')
-st.set_page_config(layout="wide")
-
+# import warnings
+# warnings.filterwarnings('ignore')
+# st.set_page_config(layout="wide")
 pd.options.display.float_format = '{:.2f}'.format
-
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
-# # Input files----------------------------------------------------------------------
-# products = pd.read_csv('Product_new.csv')
-# reviews = pd.read_csv('Review_new.zip', lineterminator='\n')
-# with open('Sim_Results.pkl', 'rb') as f:
-#     prod_rec = pickle.load(f)
-# user_rec = pd.read_parquet('user_recs.parquet')  
- 
+
+
+# Input files----------------------------------------------------------------------
+products = pd.read_csv('Product_new.csv')
+reviews = pd.read_csv('Review_new.zip', lineterminator='\n')
+with open('Sim_Results.pkl', 'rb') as f:
+    prod_rec = pickle.load(f)
+user_rec = pd.read_parquet('user_recs.parquet')  #
+st.write('hello')
 # # Functions-----------------------------------------------------------------------------
 # reviews[['customer_id', 'product_id', 'rating']] = reviews[['customer_id', 'product_id', 'rating']].apply(pd.to_numeric)
 # # Random products for initial display
