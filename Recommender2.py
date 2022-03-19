@@ -11,15 +11,15 @@ import pickle
 pd.options.display.float_format = '{:.2f}'.format
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
-
+st.write('hello')
 
 # Input files----------------------------------------------------------------------
-products = pd.read_csv('Product_new.csv')
-reviews = pd.read_csv('Review_new.zip', lineterminator='\n')
-with open('Sim_Results.pkl', 'rb') as f:
-    prod_rec = pickle.load(f)
-user_rec = pd.read_parquet('user_recs.parquet')  #
-st.write('hello')
+# products = pd.read_csv('Product_new.csv')
+# reviews = pd.read_csv('Review_new.zip', lineterminator='\n')
+# with open('Sim_Results.pkl', 'rb') as f:
+#     prod_rec = pickle.load(f)
+# user_rec = pd.read_parquet('user_recs.parquet')  #
+
 
 # # Functions-----------------------------------------------------------------------------
 # reviews[['customer_id', 'product_id', 'rating']] = reviews[['customer_id', 'product_id', 'rating']].apply(pd.to_numeric)
