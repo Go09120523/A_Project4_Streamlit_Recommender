@@ -5,9 +5,9 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import streamlit as st
 import pickle
-# import warnings
-# warnings.filterwarnings('ignore')
-# st.set_page_config(layout="wide")
+import warnings
+warnings.filterwarnings('ignore')
+st.set_page_config(layout="wide")
 pd.options.display.float_format = '{:.2f}'.format
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
@@ -25,12 +25,12 @@ st.write('hello')
 # reviews[['customer_id', 'product_id', 'rating']] = reviews[['customer_id', 'product_id', 'rating']].apply(pd.to_numeric)
 # # Random products for initial display
 # init_display = products.sample(16, replace=False)[['item_id', 'name', 'description', 'price', 'url', 'image']]
-st.write('hello')
+
 # # Search product category in 'name'
 # def search(str):
 #     search = [products[products['name']==x] for x in products['name'] if str in x]
 #     res = pd.concat(search)
-st.write('hello')
+
 #     return res.sample(12, replace=False)
 # # Get product information
 # def item(id):
