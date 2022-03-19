@@ -5,12 +5,11 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import streamlit as st
 import pickle
-
-# import warnings
-# warnings.filterwarnings('ignore')
-st.set_page_config(layout="wide")
+import warnings
+warnings.filterwarnings('ignore')
 
 pd.options.display.float_format = '{:.2f}'.format
+st.set_page_config(layout="wide")
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
 # Input files----------------------------------------------------------------------
@@ -19,10 +18,9 @@ reviews = pd.read_csv('Review_new.zip', lineterminator='\n')
 with open('Sim_Results.pkl', 'rb') as f:
     prod_rec = pickle.load(f)
 user_rec = pd.read_parquet('user_recs.parquet')  
-
+ 
 # Functions-----------------------------------------------------------------------------
 reviews[['customer_id', 'product_id', 'rating']] = reviews[['customer_id', 'product_id', 'rating']].apply(pd.to_numeric)
-
 # Random products for initial display
 init_display = products.sample(16, replace=False)[['item_id', 'name', 'description', 'price', 'url', 'image']]
 # Search product category in 'name'
@@ -131,41 +129,41 @@ def recommend(item_id, num):
 #     similar_items = [(cosine_similarities[idx][i], products['item_id'][i]) for i in similar_indices]
 #     prod_rec[row['item_id']] = similar_items[1:]
     
-# # # Build ALS Model
-# # reviews = spark.read.csv('data/Review_new.csv', inferSchema=True, header=True)
-# # reviews = reviews.withColumn('customer_id', reviews['customer_id'].cast(IntegerType()))
-# # reviews = reviews.withColumn('product_id', reviews['product_id'].cast(IntegerType()))
-# # reviews = reviews.withColumn('rating', reviews['rating'].cast(DoubleType()))
-# # reviews = reviews.na.drop(subset=['customer_id', 'product_id', 'rating'], how = 'any')
-# # reviews_sub = reviews.select('customer_id', 'product_id', 'rating')
-# # (training, test) = reviews_sub.randomSplit([0.8, 0.2])
-# # # Buil an (default) estimator
-# # ALS_Explicit = ALS( implicitPrefs=False, userCol='customer_id', itemCol='product_id', ratingCol="rating", coldStartStrategy="drop", nonnegative=True)
-# # defaultModel = ALS_Explicit.fit(training)
-# # # An evaluator
-# # evaluatorR = RegressionEvaluator(metricName="rmse", labelCol="rating")
-# # # Parameter map
-# # paramMap = ParamGridBuilder() \
-# #           .addGrid(ALS_Explicit.rank, [ 15,  22, 30]) \
-# #           .addGrid(ALS_Explicit.maxIter, [12,  20]) \
-# #           .addGrid(ALS_Explicit.regParam, [0.5, 0.1, 0.05]) \
-# #           .addGrid(ALS_Explicit.alpha, [2.0]) \
-# #           .build()
-# # # Run CrosValidation to find best model..
-# # CV_ALS_Explicit = CrossValidator(estimator=ALS_Explicit,
-# #                             estimatorParamMaps=paramMap,
-# #                             evaluator=evaluatorR,
-# #                             numFolds=3)
-# # CV_Model = CV_ALS_Explicit.fit(training)
-# # # Make predictions on test. CV_Model uses the best model found.
-# # model = CV_Model.bestModel
-# # predictions = model.transform(test)
-# # predictions.show(5)
-# # # Evaluate the model by computing the RMSE on the test data
-# # evaluator = RegressionEvaluator(metricName='rmse',
-# #                                 labelCol='rating',
-# #                                 predictionCol='prediction')
-# # rmse = evaluator.evaluate(predictions)
+# # Build ALS Model
+# reviews = spark.read.csv('data/Review_new.csv', inferSchema=True, header=True)
+# reviews = reviews.withColumn('customer_id', reviews['customer_id'].cast(IntegerType()))
+# reviews = reviews.withColumn('product_id', reviews['product_id'].cast(IntegerType()))
+# reviews = reviews.withColumn('rating', reviews['rating'].cast(DoubleType()))
+# reviews = reviews.na.drop(subset=['customer_id', 'product_id', 'rating'], how = 'any')
+# reviews_sub = reviews.select('customer_id', 'product_id', 'rating')
+# (training, test) = reviews_sub.randomSplit([0.8, 0.2])
+# # Buil an (default) estimator
+# ALS_Explicit = ALS( implicitPrefs=False, userCol='customer_id', itemCol='product_id', ratingCol="rating", coldStartStrategy="drop", nonnegative=True)
+# defaultModel = ALS_Explicit.fit(training)
+# # An evaluator
+# evaluatorR = RegressionEvaluator(metricName="rmse", labelCol="rating")
+# # Parameter map
+# paramMap = ParamGridBuilder() \
+#           .addGrid(ALS_Explicit.rank, [ 15,  22, 30]) \
+#           .addGrid(ALS_Explicit.maxIter, [12,  20]) \
+#           .addGrid(ALS_Explicit.regParam, [0.5, 0.1, 0.05]) \
+#           .addGrid(ALS_Explicit.alpha, [2.0]) \
+#           .build()
+# # Run CrosValidation to find best model..
+# CV_ALS_Explicit = CrossValidator(estimator=ALS_Explicit,
+#                             estimatorParamMaps=paramMap,
+#                             evaluator=evaluatorR,
+#                             numFolds=3)
+# CV_Model = CV_ALS_Explicit.fit(training)
+# # Make predictions on test. CV_Model uses the best model found.
+# model = CV_Model.bestModel
+# predictions = model.transform(test)
+# predictions.show(5)
+# # Evaluate the model by computing the RMSE on the test data
+# evaluator = RegressionEvaluator(metricName='rmse',
+#                                 labelCol='rating',
+#                                 predictionCol='prediction')
+# rmse = evaluator.evaluate(predictions)
 
 # GUI---------------------------------------------------------------------
 st.title("Data Science Recommender System Project")
@@ -205,57 +203,51 @@ elif choice == 'Build Project':
     st.write('Review')
     st.dataframe(reviews.head(3))
     st.markdown('#### 2. Visualization')
-    
     st.write('Giá bán')
     fig, ax = plt.subplots(1, 2, figsize=(12,6))
     products.price.plot(kind='box', ax=ax[0])
     products.price.plot(kind='hist', bins=20, ax=ax[1])
     st.pyplot(fig.figure) 
-    
     st.write('Thương hiệu')
     brands = products.groupby('brand')['item_id'].count().sort_values(ascending=False)
-    fig1 = brands[1:11].plot(kind='bar')
+    fig = brands[1:11].plot(kind='bar')
     plt.ylabel('Count')
     plt.title('Products Items by brand')
-    st.pyplot(fig1.figure)
-    
+    st.pyplot(fig.figure)
     st.write('Giá bán theo thương hiệu')
     price_by_brand = products.groupby(by='brand').mean()['price'].sort_values(ascending=False)
-    fig2 = price_by_brand[:10].plot(kind='bar')
+    fig = price_by_brand[:10].plot(kind='bar')
     plt.ylabel('Price')
     plt.title('Average price by brand')
-    st.pyplot(fig2.figure)
-    
+    st.pyplot(fig.figure)
     st.write('Rating')
+    fig= plt.figure(figsize=(6, 6))
     sns.displot(products, x = 'rating', kind='hist')
-    st.pyplot()
-    
+    st.pyplot(fig.figure)
     st.write('Average Rating')
     avg_rating_customer = reviews.groupby(by='product_id').mean()['rating'].to_frame().reset_index()
     avg_rating_customer.rename({'rating': 'avg_rating'}, axis=1, inplace=True)
     n_products = products.merge(avg_rating_customer, left_on='item_id', right_on = 'product_id', how='left')
+    fig= plt.figure(figsize=(6, 6))
     sns.displot(n_products, x='avg_rating', kind='hist')
-    st.pyplot()
-    
+    st.pyplot(fig.figure)
     st.write('Review distribution')
+    fig= plt.figure(figsize=(6, 6))
     sns.displot(reviews, x='rating', kind='kde')
-    st.pyplot()
-    
+    st.pyplot(fig.figure)
     st.write('Top 20 products have the most reviews')
-    fig5 = plt.figure(figsize=(12,6))
+    fig = plt.figure(figsize = (12, 6))
     top_products = reviews.groupby('product_id').count()['customer_id'].sort_values(ascending=False)[:20]
     top_products.index = products[products.item_id.isin(top_products.index)]['name'].str[:25]
     top_products.plot(kind='bar')
-    st.pyplot(fig5.figure)
-    
+    st.pyplot(fig.figure)
     st.write('Top 20 customers do the most reviews')
     top_rating_customers = reviews.groupby('customer_id').count()['product_id'].sort_values(ascending=False)[:20]
-    fig6 = plt.figure(figsize=(12,6))
+    plt.figure(figsize=(12,6))
     plt.bar(x=[str(x) for x in top_rating_customers.index], height=top_rating_customers.values)
     plt.xticks(rotation=70)
-    st.pyplot(fig6.figure)
-    
-#     st.markdown('#### 3. Build Model')
+    st.pyplot(fig.figure)
+    st.markdown('#### 3. Build Model')
     st.markdown('##### Cosine-Similarity')
     st.markdown(""" Steps taken:
     -  'underthesea word_tokenize' used to tokenize texts
@@ -289,7 +281,8 @@ elif choice == 'Recommender':
                         ('Tivi', 'Loa', 'Camera', 'Laptop', 'Tủ lạnh', 'Khác...'),
                         index = 5)
     if customer_id == product_id:
-        if option == 'Khác...':
+        if option == 'Khác...' :
+            st.markdown("##### ***Suggested Products: *** ")
             display_group()
     if customer_id:
         st.markdown("##### ***Suggested Products: *** ")
@@ -298,7 +291,6 @@ elif choice == 'Recommender':
         cid_display = pd.concat([products[products['item_id'] == x] for x in rec])
         cid_display = cid_display[['item_id', 'name', 'description', 'price', 'url', 'image']]
         display_group(cid_display)   
-        
     if product_id:
         st.write("Your product: ")
         item = item(int(product_id))
@@ -322,7 +314,6 @@ elif choice == 'Recommender':
        
     if option != 'Khác...':
         display_group(search(option))
-    
         
         
         
