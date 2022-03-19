@@ -106,7 +106,7 @@ def recommend(item_id, num):
     for rec in recs:
         lst.append(int(rec[1]))
     return lst
-st.write('Hello')
+
 # CODE to build models is here.  Un-comment to run-----------------------------------------
 # # BuildCosine-Similarity
 # products = products[products['name'].notnull()]
@@ -165,23 +165,23 @@ st.write('Hello')
 # #                                 predictionCol='prediction')
 # # rmse = evaluator.evaluate(predictions)
 
-# # GUI---------------------------------------------------------------------
-# st.title("Data Science Recommender System Project")
-# st.write("---------------------------------------------------------------------------")
-# st.write("Upload file contains products information used for content-base filtering")
-# uploaded_file = st.file_uploader('Choose a file', type=['csv'], key=1)
-# if uploaded_file is not None:
-#     products2 = pd.read_csv(uploaded_file, encoding='latin-1')
-#     products2.to_csv('Product_new2.csv', index=False)
-# st.write("Upload file contains users information used for collaborative filtering")
-# uploaded_file2 = st.file_uploader('Choose a file', type=['csv'], key=2)
-# if uploaded_file2 is not None:
-#     reviews2 = pd.read_csv(uploaded_file, encoding='latin-1')
-#     reviews2.to_csv('Review_new2.csv', index=False)
-# st.write('****************************************************************') 
+# GUI---------------------------------------------------------------------
+st.title("Data Science Recommender System Project")
+st.write("---------------------------------------------------------------------------")
+st.write("Upload file contains products information used for content-base filtering")
+uploaded_file = st.file_uploader('Choose a file', type=['csv'], key=1)
+if uploaded_file is not None:
+    products2 = pd.read_csv(uploaded_file, encoding='latin-1')
+    products2.to_csv('Product_new2.csv', index=False)
+st.write("Upload file contains users information used for collaborative filtering")
+uploaded_file2 = st.file_uploader('Choose a file', type=['csv'], key=2)
+if uploaded_file2 is not None:
+    reviews2 = pd.read_csv(uploaded_file, encoding='latin-1')
+    reviews2.to_csv('Review_new2.csv', index=False)
+st.write('****************************************************************') 
   
-# menu = ['Business Objective', 'Build Project', 'Recommender']
-# choice = st.sidebar.selectbox('Menu', menu)
+menu = ['Business Objective', 'Build Project', 'Recommender']
+choice = st.sidebar.selectbox('Menu', menu)
 # if choice == 'Business Objective':
 #     st.write(""" 
 # - Tiki là một hệ sinh thái thương mại “all in one”, trong đó có tiki.vn, là một website thương mại điện tử đứng top 2 của Việt Nam, top 6 khu vực Đông Nam Á.
