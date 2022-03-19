@@ -3,7 +3,7 @@ pandas
 seaborn 
 matplotlib
 streamlit 
-pickle 
+
 
 
 
