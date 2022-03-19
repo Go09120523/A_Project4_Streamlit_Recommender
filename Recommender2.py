@@ -7,7 +7,7 @@ import streamlit as st
 import pickle
 import warnings
 warnings.filterwarnings('ignore')
-st.set_page_config(layout="wide")
+#st.set_page_config(layout="wide")
 
 pd.options.display.float_format = '{:.2f}'.format
 st.set_option('deprecation.showPyplotGlobalUse', False)
