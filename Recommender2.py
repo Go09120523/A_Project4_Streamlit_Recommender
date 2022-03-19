@@ -19,11 +19,12 @@ reviews = pd.read_csv('Review_new.zip', lineterminator='\n')
 with open('Sim_Results.pkl', 'rb') as f:
     prod_rec = pickle.load(f)
 user_rec = pd.read_parquet('user_recs.parquet')  #
+
+# Functions-----------------------------------------------------------------------------
+reviews[['customer_id', 'product_id', 'rating']] = reviews[['customer_id', 'product_id', 'rating']].apply(pd.to_numeric)
+# Random products for initial display
+init_display = products.sample(16, replace=False)[['item_id', 'name', 'description', 'price', 'url', 'image']]
 st.write('hello')
-# # Functions-----------------------------------------------------------------------------
-# reviews[['customer_id', 'product_id', 'rating']] = reviews[['customer_id', 'product_id', 'rating']].apply(pd.to_numeric)
-# # Random products for initial display
-# init_display = products.sample(16, replace=False)[['item_id', 'name', 'description', 'price', 'url', 'image']]
 # # Search product category in 'name'
 # def search(str):
 #     search = [products[products['name']==x] for x in products['name'] if str in x]
