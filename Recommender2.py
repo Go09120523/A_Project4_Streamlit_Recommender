@@ -18,96 +18,95 @@ reviews = pd.read_csv('Review_new.zip', lineterminator='\n')
 with open('Sim_Results.pkl', 'rb') as f:
     prod_rec = pickle.load(f)
 user_rec = pd.read_parquet('user_recs.parquet')  
+
+# Functions-----------------------------------------------------------------------------
+reviews[['customer_id', 'product_id', 'rating']] = reviews[['customer_id', 'product_id', 'rating']].apply(pd.to_numeric)
+# Random products for initial display
+init_display = products.sample(16, replace=False)[['item_id', 'name', 'description', 'price', 'url', 'image']]
+# Search product category in 'name'
+def search(str):
+    search = [products[products['name']==x] for x in products['name'] if str in x]
+    res = pd.concat(search)
+    return res.sample(12, replace=False)
+# Get product information
+def item(id):
+  return products.loc[products['item_id']==id]
+# Display recommendations
+def display_group (lst = init_display):
+    with st.container():
+        col1, col2, col3, col4 = st.columns(4)
+        with col1:
+            with st.container():               
+                st.image(lst['image'].tolist()[0])
+                st.write(lst['name'].tolist()[0][:50])
+                st.write("Price:      " + str(lst['price'].tolist()[0]))
+                st.write("Product ID: " + str(lst['item_id'].tolist()[0]))
+            with st.container():
+                st.image(lst['image'].tolist()[1])
+                st.write(lst['name'].tolist()[1][:50])
+                st.write("Price:   " + str(lst['price'].tolist()[1]))
+                st.write("Product ID: " + str(lst['item_id'].tolist()[1]))
+            with st.container():
+                st.image(lst['image'].tolist()[2])
+                st.write(lst['name'].tolist()[2][:50])
+                st.write("Price:   " + str(lst['price'].tolist()[2]))
+                st.write("Product ID: " + str(lst['item_id'].tolist()[2]))
+        with col2:
+            with st.container():
+                st.image(lst['image'].tolist()[3])
+                st.write(lst['name'].tolist()[3][:50])
+                st.write("Price:   " + str(lst['price'].tolist()[3]))
+                st.write("Product ID: " + str(lst['item_id'].tolist()[3]))
+            with st.container():
+                st.image(lst['image'].tolist()[4])
+                st.write(lst['name'].tolist()[4][:50])
+                st.write("Price:   " + str(lst['price'].tolist()[4]))
+                st.write("Product ID: " + str(lst['item_id'].tolist()[4]))
+            with st.container():
+                st.image(lst['image'].tolist()[5])
+                st.write(lst['name'].tolist()[5][:50])
+                st.write("Price:   " + str(lst['price'].tolist()[5]))
+                st.write("Product ID: " + str(lst['item_id'].tolist()[5]))
+        with col3:
+            with st.container():
+                st.image(lst['image'].tolist()[6])
+                st.write(lst['name'].tolist()[6][:50])
+                st.write("Price:   " + str(lst['price'].tolist()[6]))
+                st.write("Product ID: " + str(lst['item_id'].tolist()[6]))
+            with st.container():
+                st.image(lst['image'].tolist()[7])
+                st.write(lst['name'].tolist()[7][:50])
+                st.write("Price:   " + str(lst['price'].tolist()[7]))
+                st.write("Product ID: " + str(lst['item_id'].tolist()[7]))
+            with st.container():
+                st.image(lst['image'].tolist()[8])
+                st.write(lst['name'].tolist()[8][:50])
+                st.write("Price:   " + str(lst['price'].tolist()[8]))
+                st.write("Product ID: " + str(lst['item_id'].tolist()[8]))
+        with col4:
+            with st.container():
+                st.image(lst['image'].tolist()[9])
+                st.write(lst['name'].tolist()[9][:50])
+                st.write("Price:   " + str(lst['price'].tolist()[9]))
+                st.write("Product ID: " + str(lst['item_id'].tolist()[9]))
+            with st.container():
+                st.image(lst['image'].tolist()[10])
+                st.write(lst['name'].tolist()[10][:50])
+                st.write("Price:   " + str(lst['price'].tolist()[10]))
+                st.write("Product ID: " + str(lst['item_id'].tolist()[10]))
+            with st.container():
+                st.image(lst['image'].tolist()[11])
+                st.write(lst['name'].tolist()[11][:50])
+                st.write("Price:   " + str(lst['price'].tolist()[11])) 
+                st.write("Product ID: " + str(lst['item_id'].tolist()[11]))  
+# Recommended products
+def recommend(item_id, num):
+    recs = prod_rec[item_id][:num]
+    lst = []
+    for rec in recs:
+        lst.append(int(rec[1]))
+    return lst
 st.write('Hello')
-
-# # Functions-----------------------------------------------------------------------------
-# reviews[['customer_id', 'product_id', 'rating']] = reviews[['customer_id', 'product_id', 'rating']].apply(pd.to_numeric)
-# # Random products for initial display
-# init_display = products.sample(16, replace=False)[['item_id', 'name', 'description', 'price', 'url', 'image']]
-# # Search product category in 'name'
-# def search(str):
-#     search = [products[products['name']==x] for x in products['name'] if str in x]
-#     res = pd.concat(search)
-#     return res.sample(12, replace=False)
-# # Get product information
-# def item(id):
-#   return products.loc[products['item_id']==id]
-# # Display recommendations
-# def display_group (lst = init_display):
-#     with st.container():
-#         col1, col2, col3, col4 = st.columns(4)
-#         with col1:
-#             with st.container():               
-#                 st.image(lst['image'].tolist()[0])
-#                 st.write(lst['name'].tolist()[0][:50])
-#                 st.write("Price:      " + str(lst['price'].tolist()[0]))
-#                 st.write("Product ID: " + str(lst['item_id'].tolist()[0]))
-#             with st.container():
-#                 st.image(lst['image'].tolist()[1])
-#                 st.write(lst['name'].tolist()[1][:50])
-#                 st.write("Price:   " + str(lst['price'].tolist()[1]))
-#                 st.write("Product ID: " + str(lst['item_id'].tolist()[1]))
-#             with st.container():
-#                 st.image(lst['image'].tolist()[2])
-#                 st.write(lst['name'].tolist()[2][:50])
-#                 st.write("Price:   " + str(lst['price'].tolist()[2]))
-#                 st.write("Product ID: " + str(lst['item_id'].tolist()[2]))
-#         with col2:
-#             with st.container():
-#                 st.image(lst['image'].tolist()[3])
-#                 st.write(lst['name'].tolist()[3][:50])
-#                 st.write("Price:   " + str(lst['price'].tolist()[3]))
-#                 st.write("Product ID: " + str(lst['item_id'].tolist()[3]))
-#             with st.container():
-#                 st.image(lst['image'].tolist()[4])
-#                 st.write(lst['name'].tolist()[4][:50])
-#                 st.write("Price:   " + str(lst['price'].tolist()[4]))
-#                 st.write("Product ID: " + str(lst['item_id'].tolist()[4]))
-#             with st.container():
-#                 st.image(lst['image'].tolist()[5])
-#                 st.write(lst['name'].tolist()[5][:50])
-#                 st.write("Price:   " + str(lst['price'].tolist()[5]))
-#                 st.write("Product ID: " + str(lst['item_id'].tolist()[5]))
-#         with col3:
-#             with st.container():
-#                 st.image(lst['image'].tolist()[6])
-#                 st.write(lst['name'].tolist()[6][:50])
-#                 st.write("Price:   " + str(lst['price'].tolist()[6]))
-#                 st.write("Product ID: " + str(lst['item_id'].tolist()[6]))
-#             with st.container():
-#                 st.image(lst['image'].tolist()[7])
-#                 st.write(lst['name'].tolist()[7][:50])
-#                 st.write("Price:   " + str(lst['price'].tolist()[7]))
-#                 st.write("Product ID: " + str(lst['item_id'].tolist()[7]))
-#             with st.container():
-#                 st.image(lst['image'].tolist()[8])
-#                 st.write(lst['name'].tolist()[8][:50])
-#                 st.write("Price:   " + str(lst['price'].tolist()[8]))
-#                 st.write("Product ID: " + str(lst['item_id'].tolist()[8]))
-#         with col4:
-#             with st.container():
-#                 st.image(lst['image'].tolist()[9])
-#                 st.write(lst['name'].tolist()[9][:50])
-#                 st.write("Price:   " + str(lst['price'].tolist()[9]))
-#                 st.write("Product ID: " + str(lst['item_id'].tolist()[9]))
-#             with st.container():
-#                 st.image(lst['image'].tolist()[10])
-#                 st.write(lst['name'].tolist()[10][:50])
-#                 st.write("Price:   " + str(lst['price'].tolist()[10]))
-#                 st.write("Product ID: " + str(lst['item_id'].tolist()[10]))
-#             with st.container():
-#                 st.image(lst['image'].tolist()[11])
-#                 st.write(lst['name'].tolist()[11][:50])
-#                 st.write("Price:   " + str(lst['price'].tolist()[11])) 
-#                 st.write("Product ID: " + str(lst['item_id'].tolist()[11]))  
-# # Recommended products
-# def recommend(item_id, num):
-#     recs = prod_rec[item_id][:num]
-#     lst = []
-#     for rec in recs:
-#         lst.append(int(rec[1]))
-#     return lst
-
 # # CODE to build models is here.  Un-comment to run-----------------------------------------
 # # # BuildCosine-Similarity
 # # products = products[products['name'].notnull()]
