@@ -13,21 +13,21 @@ pd.options.display.float_format = '{:.2f}'.format
 
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
-# Input files----------------------------------------------------------------------
-products = pd.read_csv('Product_new.csv')
-reviews = pd.read_csv('Review_new.zip', lineterminator='\n')
-with open('Sim_Results.pkl', 'rb') as f:
-    prod_rec = pickle.load(f)
-user_rec = pd.read_parquet('user_recs.parquet')  
+# # Input files----------------------------------------------------------------------
+# products = pd.read_csv('Product_new.csv')
+# reviews = pd.read_csv('Review_new.zip', lineterminator='\n')
+# with open('Sim_Results.pkl', 'rb') as f:
+#     prod_rec = pickle.load(f)
+# user_rec = pd.read_parquet('user_recs.parquet')  
  
-# Functions-----------------------------------------------------------------------------
-reviews[['customer_id', 'product_id', 'rating']] = reviews[['customer_id', 'product_id', 'rating']].apply(pd.to_numeric)
-# Random products for initial display
-init_display = products.sample(16, replace=False)[['item_id', 'name', 'description', 'price', 'url', 'image']]
-# Search product category in 'name'
-def search(str):
-    search = [products[products['name']==x] for x in products['name'] if str in x]
-    res = pd.concat(search)
+# # Functions-----------------------------------------------------------------------------
+# reviews[['customer_id', 'product_id', 'rating']] = reviews[['customer_id', 'product_id', 'rating']].apply(pd.to_numeric)
+# # Random products for initial display
+# init_display = products.sample(16, replace=False)[['item_id', 'name', 'description', 'price', 'url', 'image']]
+# # Search product category in 'name'
+# def search(str):
+#     search = [products[products['name']==x] for x in products['name'] if str in x]
+#     res = pd.concat(search)
 st.write('hello')
 #     return res.sample(12, replace=False)
 # # Get product information
